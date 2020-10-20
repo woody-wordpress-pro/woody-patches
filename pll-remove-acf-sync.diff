@@ -1,24 +1,18 @@
-From d85ce9d00b5f4c5cf867b478fa12519a206c60ce Mon Sep 17 00:00:00 2001
+From 435152ebb74dcbd4a3a3316eec548d52ef034387 Mon Sep 17 00:00:00 2001
 From: Benoit Bouchaud <benoit.bouchaud@raccourci.fr>
-Date: Tue, 20 Oct 2020 15:12:48 +0200
-Subject: [PATCH] Patch to remove PLL_ACF
+Date: Tue, 20 Oct 2020 17:04:09 +0200
+Subject: [PATCH] remove PLL_ACF
 
 ---
- integrations/acf/load.php | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ integrations/acf/load.php | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/integrations/acf/load.php b/integrations/acf/load.php
-index 5be8998..3dc9d2c 100644
+index 5be8998..09acdd0 100644
 --- a/integrations/acf/load.php
 +++ b/integrations/acf/load.php
-@@ -3,15 +3,16 @@
-  * @package Polylang-Pro
-  */
- 
--if ( ! defined( 'ABSPATH' ) ) {
--	exit; // Don't access directly.
-+if (! defined('ABSPATH')) {
-+    exit; // Don't access directly.
+@@ -7,11 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
+ 	exit; // Don't access directly.
  };
  
 -add_action(
@@ -29,14 +23,13 @@ index 5be8998..3dc9d2c 100644
 -		}
 -	}
 -);
-+// Benoit Bouchaud - 20/10/2020 : remove PLL_ACF integration that's causing error on Woody
 +// add_action(
-+//     'after_setup_theme',
-+//     function () {
-+//         if (defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.7.11', '>=')) {
-+//             add_action('init', array( PLL_Integrations::instance()->acf = new PLL_ACF(), 'init' ));
-+//         }
-+//     }
++// 	'after_setup_theme',
++// 	function() {
++// 		if ( defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.11', '>=' ) ) {
++// 			add_action( 'init', array( PLL_Integrations::instance()->acf = new PLL_ACF(), 'init' ) );
++// 		}
++// 	}
 +// );
 -- 
 2.27.0
