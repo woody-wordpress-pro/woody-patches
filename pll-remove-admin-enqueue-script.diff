@@ -1,0 +1,26 @@
+From 384ccfdc3e9a965b7c3af14c35550af41f665e8d Mon Sep 17 00:00:00 2001
+From: Benoit Bouchaud <benoit.bouchaud@raccourci.fr>
+Date: Fri, 23 Oct 2020 11:14:28 +0200
+Subject: [PATCH] Removed useless function that updates pages meta when loading
+ hierarchical post_type list
+
+---
+ vendor/wpsyntex/polylang/admin/admin-filters-post.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/vendor/wpsyntex/polylang/admin/admin-filters-post.php b/vendor/wpsyntex/polylang/admin/admin-filters-post.php
+index 1460383..4024e6a 100644
+--- a/vendor/wpsyntex/polylang/admin/admin-filters-post.php
++++ b/vendor/wpsyntex/polylang/admin/admin-filters-post.php
+@@ -22,7 +22,7 @@ class PLL_Admin_Filters_Post extends PLL_Admin_Filters_Post_Base {
+ 		parent::__construct( $polylang );
+ 		$this->curlang = &$polylang->curlang;
+ 
+-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
++		//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+ 
+ 		// Filters posts, pages and media by language
+ 		add_action( 'parse_query', array( $this, 'parse_query' ) );
+-- 
+2.27.0
+
