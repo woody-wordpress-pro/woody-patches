@@ -1,0 +1,60 @@
+From a8ee664566feb9d5a68b8e96c2ab706cb9aaecba Mon Sep 17 00:00:00 2001
+From: ColinEspinas <colin.espinas@yahoo.fr>
+Date: Mon, 18 Jan 2021 15:31:17 +0100
+Subject: [PATCH] Changed acf_copy_metadata to use a single query
+
+---
+ includes/acf-meta-functions.php | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
+
+diff --git a/includes/acf-meta-functions.php b/includes/acf-meta-functions.php
+index 1d26f03..02bfaca 100644
+--- a/includes/acf-meta-functions.php
++++ b/includes/acf-meta-functions.php
+@@ -309,24 +309,31 @@ function acf_delete_metadata( $post_id = 0, $name = '', $hidden = false ) {
+  * @param	(int|string) $to_post_id The post id to paste to.
+  * @return	void
+  */
+-function acf_copy_metadata( $from_post_id = 0, $to_post_id = 0 ) {
++// function acf_copy_metadata( $from_post_id = 0, $to_post_id = 0 ) {
+ 	
+-	// Get all postmeta.
+-	$meta = acf_get_meta( $from_post_id );
++// 	// Get all postmeta.
++// 	$meta = acf_get_meta( $from_post_id );
+ 	
+-	// Check meta.
+-	if( $meta ) {
++// 	// Check meta.
++// 	if( $meta ) {
+ 		
+-		// Slash data. WP expects all data to be slashed and will unslash it (fixes '\' character issues).
+-		$meta = wp_slash( $meta );
++// 		// Slash data. WP expects all data to be slashed and will unslash it (fixes '\' character issues).
++// 		$meta = wp_slash( $meta );
+ 		
+-		// Loop over meta.
+-		foreach( $meta as $name => $value ) {
+-			acf_update_metadata( $to_post_id, $name, $value );	
+-		}
+-	}
++// 		// Loop over meta.
++// 		foreach( $meta as $name => $value ) {
++// 			acf_update_metadata( $to_post_id, $name, $value );	
++// 		}
++// 	}
++// }*
++function acf_copy_metadata($from_post_id = 0, $to_post_id = 0)
++{
++    // Duplicate all post meta just in one SQL queries
++    global $wpdb;
++    $wpdb->query("INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) SELECT $to_post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = $from_post_id");
+ }
+ 
++
+ /**
+  * acf_copy_postmeta
+  *
+-- 
+2.27.0
+
